@@ -1,6 +1,6 @@
 # Dashie
 
-**Dashie finds IE students a seat between Madrid and Segovia whenever they need one, for every class, exam and IE event.**
+**Dashie helps IE students commuting Madrid–Segovia find or offer a car seat so they never miss class or events.**
 
 Student project, not affiliated with IE University.
 

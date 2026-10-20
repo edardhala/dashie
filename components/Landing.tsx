@@ -101,8 +101,8 @@ export default function Landing() {
           id="pitch-heading"
           className="mx-auto max-w-3xl text-center text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl"
         >
-          Dashie finds IE students a seat between Madrid and Segovia whenever they need one,
-          for every class, exam and IE event.
+          Dashie helps IE students commuting Madrid–Segovia find or offer a car seat so they
+          never miss class or events.
         </h2>
         <dl className="mt-8 grid gap-4 sm:grid-cols-3">
           {pitch.map((item) => (
