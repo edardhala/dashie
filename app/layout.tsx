@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col font-sans">
         <SiteHeader />
         <main className="w-full flex-1 px-4 py-8 sm:py-12">{children}</main>
-        <footer className="border-t border-stone-200 px-4 py-6 text-center text-sm text-stone-600">
+        <footer className="bg-ink px-4 py-6 text-center text-sm text-white/75">
           Dashie · Student project, not affiliated with IE University.
         </footer>
       </body>

@@ -37,7 +37,7 @@ const requestBadge: Record<RequestStatus, { label: string; className: string }> 
 };
 
 const button = "inline-flex min-h-11 items-center gap-1.5 rounded-xl px-4 text-sm font-semibold disabled:opacity-50";
-const primary = `${button} bg-emerald-700 text-white hover:bg-emerald-800`;
+const primary = `${button} bg-brand text-white hover:bg-brand-hover`;
 const secondary = `${button} bg-white text-stone-800 ring-1 ring-stone-300 hover:bg-stone-100`;
 
 export default function RideCard({
@@ -63,13 +63,13 @@ export default function RideCard({
       <div className="flex items-start justify-between gap-3">
         <RouteLine direction={ride.direction} />
         {isMine && (
-          <span className="shrink-0 rounded-full bg-stone-900 px-2.5 py-0.5 text-xs font-semibold text-white">
+          <span className="shrink-0 rounded-full bg-ink px-2.5 py-0.5 text-xs font-semibold text-white">
             Your ride
           </span>
         )}
       </div>
 
-      <p className="mt-3 text-base font-semibold text-stone-900 [overflow-wrap:anywhere]">
+      <p className="mt-3 text-base font-semibold text-ink [overflow-wrap:anywhere]">
         {ride.description}
       </p>
 
@@ -123,7 +123,7 @@ export default function RideCard({
 
       {requests && (
         <div className="mt-4 rounded-xl bg-stone-50 p-4">
-          <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-sm font-semibold text-stone-900">
+          <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-sm font-semibold text-ink">
             <span>Seat requests ({requests.length})</span>
             <span className="font-normal text-stone-600">
               {acceptedCount} of {ride.seats} accepted
@@ -138,7 +138,7 @@ export default function RideCard({
                   <div className="flex flex-wrap items-center gap-2">
                     <a
                       href={`mailto:${request.requester_email}`}
-                      className="inline-flex min-h-11 items-center gap-1.5 font-medium text-emerald-800 underline underline-offset-4 [overflow-wrap:anywhere]"
+                      className="inline-flex min-h-11 items-center gap-1.5 font-medium text-brand-ink underline underline-offset-4 [overflow-wrap:anywhere]"
                     >
                       <MailIcon className="h-4 w-4 shrink-0" />
                       {request.requester_email}

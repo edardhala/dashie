@@ -94,13 +94,13 @@ export default function AuthForm({ mode }: { mode: Mode }) {
   }
 
   const inputClass =
-    "mt-1.5 block min-h-12 w-full rounded-xl border border-stone-300 bg-white px-3.5 text-base text-stone-900";
-  const labelClass = "block text-sm font-semibold text-stone-900";
+    "mt-1.5 block min-h-12 w-full rounded-xl border border-stone-300 bg-white px-3.5 text-base text-ink";
+  const labelClass = "block text-sm font-semibold text-ink";
 
   return (
     <div className="mx-auto max-w-sm">
       <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-stone-200 sm:p-8">
-        <h1 className="text-2xl font-bold tracking-tight text-stone-900">{text.heading}</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-ink">{text.heading}</h1>
         <p className="mt-1 text-stone-700">{text.intro}</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -153,7 +153,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             type="submit"
             data-testid={`${mode}-submit`}
             disabled={busy}
-            className="min-h-12 w-full rounded-xl bg-emerald-700 px-4 text-base font-semibold text-white shadow-sm hover:bg-emerald-800 disabled:opacity-60"
+            className="min-h-12 w-full rounded-xl bg-brand px-4 text-base font-semibold text-white shadow-sm hover:bg-brand-hover disabled:opacity-60"
           >
             {busy ? text.busy : text.submit}
           </button>
@@ -164,7 +164,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
         {text.switchText}{" "}
         <Link
           href={text.switchHref}
-          className="inline-block py-3 font-semibold text-emerald-800 underline underline-offset-4"
+          className="inline-block py-3 font-semibold text-brand-ink underline underline-offset-4"
         >
           {text.switchLink}
         </Link>

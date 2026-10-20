@@ -34,31 +34,31 @@ const examples: { direction: Direction; description: string; seats: string; when
 export default function Landing() {
   return (
     <div className="mx-auto max-w-5xl">
-      <section className="relative overflow-hidden rounded-3xl bg-white px-5 py-12 text-center ring-1 ring-stone-200 sm:px-10 sm:py-20">
+      <section className="relative overflow-hidden rounded-3xl bg-ink px-5 py-12 text-center shadow-xl shadow-ink/20 sm:px-10 sm:py-20">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,#d1fae5_0%,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_0%,rgba(242,107,79,0.28)_0%,transparent_70%),radial-gradient(40%_40%_at_100%_100%,rgba(99,102,241,0.25)_0%,transparent_70%)]"
         />
         <div className="relative">
-          <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-balance text-stone-900 sm:text-6xl">
+          <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-balance text-white sm:text-6xl">
             Find or offer a seat between Madrid and Segovia
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-pretty text-stone-700">
+          <p className="mx-auto mt-5 max-w-xl text-lg text-pretty text-white/80">
             A ride board for IE students. Post your trip in 10 seconds, no more scrolling
             WhatsApp groups.
           </p>
           <div className="mt-8 flex flex-col items-center gap-2">
             <Link
               href="/signup"
-              className="inline-flex min-h-12 w-full max-w-xs items-center justify-center rounded-xl bg-emerald-700 px-6 text-lg font-semibold text-white shadow-sm hover:bg-emerald-800"
+              className="inline-flex min-h-12 w-full max-w-xs items-center justify-center rounded-xl bg-brand px-6 text-lg font-semibold text-white shadow-lg shadow-black/20 hover:bg-brand-hover"
             >
               Sign up — it&apos;s free
             </Link>
-            <p className="text-sm text-stone-700">
+            <p className="text-sm text-white/80">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="inline-block py-3 font-semibold text-emerald-800 underline underline-offset-4"
+                className="inline-block py-3 font-semibold text-white underline underline-offset-4"
               >
                 Log in
               </Link>
@@ -67,31 +67,33 @@ export default function Landing() {
 
           <div
             aria-hidden="true"
-            className="mx-auto mt-10 flex max-w-md items-center gap-3 text-sm font-semibold text-stone-800"
+            className="mx-auto mt-10 flex max-w-md items-center gap-3 text-sm font-semibold text-white"
           >
             <span>Madrid</span>
-            <span className="h-3 w-3 rounded-full border-2 border-emerald-700" />
-            <span className="relative flex-1 border-t-2 border-dotted border-emerald-700">
-              <span className="absolute -top-4 left-1/2 grid h-8 w-8 -translate-x-1/2 place-items-center rounded-full bg-emerald-700 text-white">
+            <span className="h-3 w-3 rounded-full border-2 border-brand-bright" />
+            <span className="relative flex-1 border-t-2 border-dotted border-brand-bright">
+              <span className="absolute -top-4 left-1/2 grid h-8 w-8 -translate-x-1/2 place-items-center rounded-full bg-brand-bright text-ink">
                 <CarIcon className="h-4 w-4" />
               </span>
             </span>
-            <span className="h-3 w-3 rounded-full bg-emerald-700" />
+            <span className="h-3 w-3 rounded-full bg-brand-bright" />
             <span>Segovia</span>
           </div>
-          <p className="mt-3 text-sm text-stone-600">About 90 km · 1 hour by car</p>
+          <p className="mt-3 text-sm text-white/70">About 90 km · 1 hour by car</p>
         </div>
       </section>
 
       <section aria-labelledby="how-heading" className="mt-16">
-        <h2 id="how-heading" className="text-2xl font-bold tracking-tight text-stone-900">
+        <h2 id="how-heading" className="text-2xl font-bold tracking-tight text-ink">
           How it works
         </h2>
         <ol className="mt-6 grid gap-4 sm:grid-cols-3">
           {steps.map((step, i) => (
             <li key={step.title} className="rounded-2xl bg-white p-5 ring-1 ring-stone-200">
-              <span className="text-sm font-bold text-emerald-800">Step {i + 1}</span>
-              <h3 className="mt-1 text-lg font-semibold text-stone-900">{step.title}</h3>
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-soft text-sm font-bold text-brand-ink">
+                {i + 1}
+              </span>
+              <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
               <p className="mt-1 text-stone-700">{step.text}</p>
             </li>
           ))}
@@ -99,7 +101,7 @@ export default function Landing() {
       </section>
 
       <section aria-labelledby="examples-heading" className="mt-16">
-        <h2 id="examples-heading" className="text-2xl font-bold tracking-tight text-stone-900">
+        <h2 id="examples-heading" className="text-2xl font-bold tracking-tight text-ink">
           Rides look like this
         </h2>
         <ul className="mt-6 grid gap-4 md:grid-cols-3">
@@ -114,7 +116,7 @@ export default function Landing() {
                   Example
                 </span>
               </div>
-              <p className="mt-3 font-semibold text-stone-900">{ride.description}</p>
+              <p className="mt-3 font-semibold text-ink">{ride.description}</p>
               <p className="mt-2 flex gap-4 text-sm text-stone-600">
                 <span className="inline-flex items-center gap-1">
                   <SeatIcon /> {ride.seats}

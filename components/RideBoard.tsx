@@ -27,8 +27,8 @@ const FILTERS: { value: Filter; label: string }[] = [
 ];
 
 const fieldClass =
-  "block min-h-12 w-full rounded-xl border border-stone-300 bg-white px-3.5 text-base text-stone-900 placeholder:text-stone-500";
-const labelClass = "block text-sm font-semibold text-stone-900";
+  "block min-h-12 w-full rounded-xl border border-stone-300 bg-white px-3.5 text-base text-ink placeholder:text-stone-500";
+const labelClass = "block text-sm font-semibold text-ink";
 const errorBox =
   "rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-800";
 const emptyBox =
@@ -231,19 +231,19 @@ export default function RideBoard({
 
   const tabClass = (active: boolean) =>
     `min-h-11 flex-1 rounded-lg px-3 text-sm font-semibold transition-colors ${
-      active ? "bg-white text-stone-900 shadow-sm" : "text-stone-700 hover:text-stone-900"
+      active ? "bg-white text-ink shadow-sm" : "text-stone-700 hover:text-ink"
     }`;
   const chipClass = (active: boolean) =>
     `min-h-11 rounded-full px-4 text-sm font-semibold transition-colors ${
       active
-        ? "bg-stone-900 text-white"
+        ? "bg-ink text-white"
         : "bg-white text-stone-800 ring-1 ring-stone-300 hover:bg-stone-100"
     }`;
 
   return (
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900">Ride board</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-ink">Ride board</h1>
         <p className="mt-1 text-stone-700">Every ride between Madrid and Segovia, newest first.</p>
       </div>
 
@@ -251,7 +251,7 @@ export default function RideBoard({
         aria-labelledby="post-heading"
         className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-6"
       >
-        <h2 id="post-heading" className="text-lg font-bold text-stone-900">
+        <h2 id="post-heading" className="text-lg font-bold text-ink">
           Post a ride
         </h2>
         <form onSubmit={handlePost} className="mt-4 space-y-5">
@@ -289,7 +289,7 @@ export default function RideBoard({
                     onChange={() => setDirection(d)}
                     className="peer sr-only"
                   />
-                  <span className="flex min-h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg px-1 text-[13px] font-semibold sm:text-sm text-stone-700 peer-checked:bg-emerald-700 peer-checked:text-white peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-emerald-700">
+                  <span className="flex min-h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg px-1 text-[13px] font-semibold sm:text-sm text-stone-700 peer-checked:bg-ink peer-checked:text-white peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
                     {d}
                   </span>
                 </label>
@@ -308,7 +308,7 @@ export default function RideBoard({
                   onClick={() => changeSeats(-1)}
                   disabled={Number(seats) <= MIN_SEATS}
                   aria-label="Fewer seats"
-                  className="grid h-12 w-12 place-items-center rounded-xl border border-stone-300 bg-white text-stone-900 hover:bg-stone-100 disabled:opacity-40"
+                  className="grid h-12 w-12 place-items-center rounded-xl border border-stone-300 bg-white text-ink hover:bg-stone-100 disabled:opacity-40"
                 >
                   <MinusIcon className="h-5 w-5" />
                 </button>
@@ -321,14 +321,14 @@ export default function RideBoard({
                   step={1}
                   value={seats}
                   onChange={(e) => setSeats(e.target.value)}
-                  className="block h-12 w-16 rounded-xl border border-stone-300 bg-white text-center text-base tabular-nums text-stone-900"
+                  className="block h-12 w-16 rounded-xl border border-stone-300 bg-white text-center text-base tabular-nums text-ink"
                 />
                 <button
                   type="button"
                   onClick={() => changeSeats(1)}
                   disabled={Number(seats) >= MAX_SEATS}
                   aria-label="More seats"
-                  className="grid h-12 w-12 place-items-center rounded-xl border border-stone-300 bg-white text-stone-900 hover:bg-stone-100 disabled:opacity-40"
+                  className="grid h-12 w-12 place-items-center rounded-xl border border-stone-300 bg-white text-ink hover:bg-stone-100 disabled:opacity-40"
                 >
                   <PlusIcon className="h-5 w-5" />
                 </button>
@@ -365,7 +365,7 @@ export default function RideBoard({
             type="submit"
             data-testid="core-submit"
             disabled={posting}
-            className="min-h-12 w-full rounded-xl bg-emerald-700 px-6 text-base font-semibold text-white shadow-sm hover:bg-emerald-800 disabled:opacity-60 sm:w-auto"
+            className="min-h-12 w-full rounded-xl bg-brand px-6 text-base font-semibold text-white shadow-sm hover:bg-brand-hover disabled:opacity-60 sm:w-auto"
           >
             {posting ? "Posting…" : "Post ride"}
           </button>
