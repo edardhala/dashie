@@ -34,10 +34,10 @@ const examples: { direction: Direction; description: string; seats: string; when
 export default function Landing() {
   return (
     <div className="mx-auto max-w-5xl">
-      <section className="relative overflow-hidden rounded-3xl bg-ink px-5 py-12 text-center shadow-xl shadow-ink/20 sm:px-10 sm:py-20">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1e1b4b] via-[#3730a3] to-[#6d28d9] px-5 py-12 text-center shadow-xl shadow-indigo-900/20 sm:px-10 sm:py-20">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_0%,rgba(242,107,79,0.28)_0%,transparent_70%),radial-gradient(40%_40%_at_100%_100%,rgba(99,102,241,0.25)_0%,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_50%_0%,rgba(167,139,250,0.35)_0%,transparent_70%)]"
         />
         <div className="relative">
           <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-balance text-white sm:text-6xl">
@@ -50,7 +50,7 @@ export default function Landing() {
           <div className="mt-8 flex flex-col items-center gap-2">
             <Link
               href="/signup"
-              className="inline-flex min-h-12 w-full max-w-xs items-center justify-center rounded-xl bg-brand px-6 text-lg font-semibold text-white shadow-lg shadow-black/20 hover:bg-brand-hover"
+              className="inline-flex min-h-12 w-full max-w-xs items-center justify-center rounded-xl bg-white px-6 text-lg font-semibold text-brand-ink shadow-lg shadow-black/20 hover:bg-brand-soft"
             >
               Sign up — it&apos;s free
             </Link>

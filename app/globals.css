@@ -1,22 +1,21 @@
 @import "tailwindcss";
 
 /*
- * Palette: midnight navy + one coral accent on warm cream.
- * Contrast (WCAG 2.1 AA): white on brand 4.9:1, brand-ink on white 6.9:1,
- * ink on cream 15:1, brand-bright on ink 4.9:1.
+ * Palette: charcoal + one indigo accent, violet highlights, on a soft lavender-white.
+ * Contrast (WCAG 2.1 AA): white on brand 6.3:1, brand-ink on white 7.9:1,
+ * ink on page 16:1, brand-bright on ink 7:1.
  */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-ink: #1e1b4b; /* navy: header, headings, selected states */
-  --color-ink-soft: #2e2a6b; /* navy hover */
-  --color-brand: #c9402a; /* coral: buttons (white text) */
-  --color-brand-hover: #a83420;
-  --color-brand-bright: #f26b4f; /* coral on navy and decorative lines */
-  --color-brand-ink: #a3321f; /* coral links and text on light backgrounds */
-  --color-brand-soft: #ffe8e1; /* coral tint for highlights */
-  --color-cream: #fff7ed; /* page background */
+  --color-ink: #18181b; /* charcoal: header, footer, headings, selected states */
+  --color-brand: #4f46e5; /* indigo: buttons (white text) */
+  --color-brand-hover: #4338ca;
+  --color-brand-bright: #a78bfa; /* violet on charcoal/indigo and decorative lines */
+  --color-brand-ink: #4338ca; /* indigo links and text on light backgrounds */
+  --color-brand-soft: #ede9fe; /* violet tint for highlights */
+  --color-cream: #f7f6ff; /* page background */
 }
 
 :root {
@@ -28,8 +27,9 @@ body {
   color: var(--color-ink);
 }
 
-/* Visible keyboard focus on every interactive element (3:1+ on cream and navy). */
+/* Visible keyboard focus on any background: white gap + indigo ring. */
 :focus-visible {
   outline: 3px solid var(--color-brand);
   outline-offset: 2px;
+  box-shadow: 0 0 0 2px #fff;
 }

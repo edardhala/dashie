@@ -14,7 +14,7 @@ export default async function SiteHeader() {
         >
           <span
             aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white"
+            className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-brand to-[#7c3aed] text-sm font-bold text-white"
           >
             D
           </span>
