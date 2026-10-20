@@ -9,6 +9,21 @@ const steps = [
   { title: "You get their email", text: "Accept who you want and sort out the details." },
 ];
 
+const pitch = [
+  {
+    label: "The problem",
+    text: "Rides between Madrid and Segovia are arranged in busy WhatsApp groups. Offers get buried in minutes, so drivers leave with empty seats and riders miss them.",
+  },
+  {
+    label: "Who it's for",
+    text: "IE students who commute between Madrid and the Segovia campus, whether you drive or need a lift.",
+  },
+  {
+    label: "What you get",
+    text: "Every ride in one place, newest first. Drivers fill their empty seats, riders find a lift in seconds.",
+  },
+];
+
 const examples: { direction: Direction; description: string; seats: string; when: string }[] = [
   {
     direction: "Madrid → Segovia",
@@ -80,6 +95,26 @@ export default function Landing() {
           </div>
           <p className="mt-3 text-sm text-white/70">About 90 km · 1 hour by car</p>
         </div>
+      </section>
+
+      <section aria-labelledby="pitch-heading" className="mt-16">
+        <h2
+          id="pitch-heading"
+          className="mx-auto max-w-3xl text-center text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl"
+        >
+          Dashie helps IE students commuting between Madrid and Segovia find or offer a car
+          seat so they stop hunting through WhatsApp groups.
+        </h2>
+        <dl className="mt-8 grid gap-4 sm:grid-cols-3">
+          {pitch.map((item) => (
+            <div key={item.label} className="rounded-2xl bg-white p-5 ring-1 ring-stone-200">
+              <dt className="text-sm font-bold uppercase tracking-wide text-brand-ink">
+                {item.label}
+              </dt>
+              <dd className="mt-2 text-stone-700">{item.text}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <section aria-labelledby="how-heading" className="mt-16">
