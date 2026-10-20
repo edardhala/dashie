@@ -12,7 +12,7 @@ Student project, not affiliated with IE University.
   - Post a ride with a one-line description, a direction (Madrid → Segovia / Segovia → Madrid), seats (1–8) and an optional departure time.
   - See every student's rides, newest first, with an optional direction filter.
   - Request a seat on someone else's ride (once per ride).
-  - **My rides**: see who requested a seat on each of your rides, with their email so you can arrange the trip.
+  - **My rides**: see who requested a seat on each of your rides, with their email, and **Accept** or **Decline** each request (never more than the seats you offered). Requesters see "Accepted ✓" or "Declined" on the ride.
   - Delete your own rides.
 - **Privacy**: phone numbers are blocked in ride descriptions, and ride cards show no names or emails. Requesters' emails are visible only to the ride's author, enforced by Row Level Security.
 - **Accessible and mobile first**: labelled inputs, visible focus, 44px tap targets, errors announced to screen readers, and a layout that works at 360px wide.
@@ -24,7 +24,8 @@ Next.js 16 (App Router, TypeScript, Tailwind CSS 4) and Supabase (Auth + Postgre
 - `lib/supabase/client.ts`: browser client
 - `lib/supabase/server.ts`: server client (Server Components)
 - `proxy.ts` + `lib/supabase/proxy.ts`: refreshes the session on every request and guards `/app`. Next.js 16 renamed "middleware" to "proxy".
-- `supabase/schema.sql`: tables, indexes and RLS policies
+- `supabase/schema.sql`: tables, indexes, RLS policies and the seat-limit trigger (everything a new database needs)
+- `supabase/upgrade-accept-decline.sql`: only for databases created before Accept/Decline existed
 
 ## Run locally
 
