@@ -11,7 +11,7 @@ const steps = [
   },
   {
     title: "You get their email",
-    text: "You see who asked and arrange the rest directly with them.",
+    text: "Accept the ones you want, then email them to arrange the rest.",
   },
 ];
 

@@ -10,6 +10,7 @@ import {
   PHONE_MESSAGE,
   looksLikePhoneNumber,
   type Direction,
+  type RequestStatus,
   type Ride,
   type SeatRequest,
 } from "@/lib/rides";
@@ -52,7 +53,7 @@ export default function RideBoard({ userId }: { userId: string }) {
       // RLS only returns my own requests and requests on my rides.
       supabase
         .from("seat_requests")
-        .select("id, ride_id, requester_id, requester_email, created_at")
+        .select("id, ride_id, requester_id, requester_email, status, created_at")
         .order("created_at", { ascending: true }),
     ]);
 
@@ -71,8 +72,12 @@ export default function RideBoard({ userId }: { userId: string }) {
     loadRides();
   }, [loadRides]);
 
-  const myRequestedRideIds = useMemo(
-    () => new Set(requests.filter((r) => r.requester_id === userId).map((r) => r.ride_id)),
+  // My own request status per ride (rides I asked to join).
+  const myRequestStatus = useMemo(
+    () =>
+      new Map(
+        requests.filter((r) => r.requester_id === userId).map((r) => [r.ride_id, r.status]),
+      ),
     [requests, userId],
   );
   const myRides = useMemo(() => rides.filter((r) => r.user_id === userId), [rides, userId]);
@@ -151,6 +156,25 @@ export default function RideBoard({ userId }: { userId: string }) {
     setBusyRideId(null);
   }
 
+  async function handleRespond(rideId: string, requestId: string, status: RequestStatus) {
+    setBusyRideId(rideId);
+    setActionError(null);
+    const { data, error } = await supabase
+      .from("seat_requests")
+      .update({ status })
+      .eq("id", requestId)
+      .select("id");
+    if (error || !data?.length) {
+      setActionError(
+        status === "accepted"
+          ? "Couldn't accept this request. The ride may already be full."
+          : `Couldn't update this request${error ? `: ${error.message}` : "."}`,
+      );
+    }
+    await loadRides();
+    setBusyRideId(null);
+  }
+
   async function handleDelete(rideId: string) {
     if (!window.confirm("Delete this ride? This can't be undone.")) return;
     setBusyRideId(rideId);
@@ -165,18 +189,20 @@ export default function RideBoard({ userId }: { userId: string }) {
 
   function renderCard(ride: Ride, showRequests: boolean) {
     const isMine = ride.user_id === userId;
+    const rideRequests = requests.filter((r) => r.ride_id === ride.id);
     return (
       <RideCard
         key={ride.id}
         ride={ride}
         isMine={isMine}
-        requested={myRequestedRideIds.has(ride.id)}
+        myRequestStatus={myRequestStatus.get(ride.id)}
         busy={busyRideId === ride.id}
         onRequest={() => handleRequest(ride.id)}
         onDelete={() => handleDelete(ride.id)}
-        requests={
-          showRequests ? requests.filter((r) => r.ride_id === ride.id) : undefined
-        }
+        onRespond={(requestId, status) => handleRespond(ride.id, requestId, status)}
+        onViewRequests={() => setTab("mine")}
+        requestCount={isMine ? rideRequests.length : 0}
+        requests={showRequests ? rideRequests : undefined}
       />
     );
   }

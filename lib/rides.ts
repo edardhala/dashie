@@ -15,11 +15,14 @@ export type Ride = {
   created_at: string;
 };
 
+export type RequestStatus = "pending" | "accepted" | "declined";
+
 export type SeatRequest = {
   id: string;
   ride_id: string;
   requester_id: string;
   requester_email: string;
+  status: RequestStatus;
   created_at: string;
 };
 
