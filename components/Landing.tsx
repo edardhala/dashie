@@ -20,7 +20,7 @@ const pitch = [
   },
   {
     label: "What you get",
-    text: "Every ride in one place, newest first. Drivers fill their empty seats, riders find a lift in seconds.",
+    text: "A seat when you need one, from Monday classes to weekend IE events. Drivers fill their empty seats, riders find a lift in seconds.",
   },
 ];
 
@@ -101,8 +101,8 @@ export default function Landing() {
           id="pitch-heading"
           className="mx-auto max-w-3xl text-center text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl"
         >
-          Dashie gives IE students commuting between Madrid and Segovia one place to offer an
-          empty car seat or find a ride in minutes.
+          Dashie finds IE students a seat between Madrid and Segovia whenever they need one,
+          for every class, exam and IE event.
         </h2>
         <dl className="mt-8 grid gap-4 sm:grid-cols-3">
           {pitch.map((item) => (
