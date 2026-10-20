@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import type { AuthError } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 
@@ -48,7 +47,6 @@ function signupErrorMessage(error: AuthError) {
 }
 
 export default function AuthForm({ mode }: { mode: Mode }) {
-  const router = useRouter();
   const text = copy[mode];
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -89,8 +87,10 @@ export default function AuthForm({ mode }: { mode: Mode }) {
       }
     }
 
-    router.replace("/app");
-    router.refresh();
+    // Full page load (not router.push) so the server sees the new session cookie
+    // and the shared header re-renders with the logout button.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    window.location.assign("/app");
   }
 
   const inputClass =

@@ -1,19 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LogoutButton() {
-  const router = useRouter();
   const [busy, setBusy] = useState(false);
 
   async function handleLogout() {
     setBusy(true);
     await createClient().auth.signOut();
-    router.replace("/");
-    router.refresh();
-    setBusy(false);
+    // Full page load so the shared header and server pages drop the old session.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    window.location.assign("/");
   }
 
   return (
