@@ -10,7 +10,7 @@ type Mode = "signup" | "login";
 const copy = {
   signup: {
     heading: "Create your account",
-    intro: "Just an email and a password. You'll go straight to the ride board.",
+    intro: "Email and password. That's it.",
     submit: "Create account",
     busy: "Creating account…",
     switchText: "Already have an account?",
@@ -19,8 +19,8 @@ const copy = {
     passwordAutocomplete: "new-password",
   },
   login: {
-    heading: "Log in",
-    intro: "Welcome back. Log in to see the rides.",
+    heading: "Welcome back",
+    intro: "Log in to see the latest rides.",
     submit: "Log in",
     busy: "Logging in…",
     switchText: "New here?",
@@ -94,74 +94,77 @@ export default function AuthForm({ mode }: { mode: Mode }) {
   }
 
   const inputClass =
-    "mt-1 block min-h-12 w-full rounded-lg border border-slate-400 bg-white px-3 text-base text-slate-900";
+    "mt-1.5 block min-h-12 w-full rounded-xl border border-stone-300 bg-white px-3.5 text-base text-stone-900";
+  const labelClass = "block text-sm font-semibold text-stone-900";
 
   return (
     <div className="mx-auto max-w-sm">
-      <h1 className="text-2xl font-bold text-slate-900">{text.heading}</h1>
-      <p className="mt-2 text-slate-700">{text.intro}</p>
+      <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-stone-200 sm:p-8">
+        <h1 className="text-2xl font-bold tracking-tight text-stone-900">{text.heading}</h1>
+        <p className="mt-1 text-stone-700">{text.intro}</p>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-        <div>
-          <label htmlFor={`${mode}-email`} className="block font-medium text-slate-900">
-            Email
-          </label>
-          <input
-            id={`${mode}-email`}
-            data-testid={`${mode}-email`}
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor={`${mode}-password`} className="block font-medium text-slate-900">
-            Password
-          </label>
-          <input
-            id={`${mode}-password`}
-            data-testid={`${mode}-password`}
-            type="password"
-            autoComplete={text.passwordAutocomplete}
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClass}
-            aria-describedby={mode === "signup" ? "password-hint" : undefined}
-          />
-          {mode === "signup" && (
-            <p id="password-hint" className="mt-1 text-sm text-slate-600">
-              At least 6 characters.
-            </p>
-          )}
-        </div>
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div>
+            <label htmlFor={`${mode}-email`} className={labelClass}>
+              Email
+            </label>
+            <input
+              id={`${mode}-email`}
+              data-testid={`${mode}-email`}
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor={`${mode}-password`} className={labelClass}>
+              Password
+            </label>
+            <input
+              id={`${mode}-password`}
+              data-testid={`${mode}-password`}
+              type="password"
+              autoComplete={text.passwordAutocomplete}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={inputClass}
+              aria-describedby={mode === "signup" ? "password-hint" : undefined}
+            />
+            {mode === "signup" && (
+              <p id="password-hint" className="mt-1.5 text-sm text-stone-600">
+                At least 6 characters.
+              </p>
+            )}
+          </div>
 
-        <div aria-live="assertive" role="alert">
-          {error && (
-            <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-800">
-              {error}
-            </p>
-          )}
-        </div>
+          <div aria-live="assertive" role="alert">
+            {error && (
+              <p className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-800">
+                {error}
+              </p>
+            )}
+          </div>
 
-        <button
-          type="submit"
-          data-testid={`${mode}-submit`}
-          disabled={busy}
-          className="min-h-12 w-full rounded-xl bg-emerald-700 px-4 text-base font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
-        >
-          {busy ? text.busy : text.submit}
-        </button>
-      </form>
+          <button
+            type="submit"
+            data-testid={`${mode}-submit`}
+            disabled={busy}
+            className="min-h-12 w-full rounded-xl bg-emerald-700 px-4 text-base font-semibold text-white shadow-sm hover:bg-emerald-800 disabled:opacity-60"
+          >
+            {busy ? text.busy : text.submit}
+          </button>
+        </form>
+      </div>
 
-      <p className="mt-6 text-sm text-slate-700">
+      <p className="mt-4 text-center text-sm text-stone-700">
         {text.switchText}{" "}
         <Link
           href={text.switchHref}
-          className="inline-block py-3 font-semibold text-emerald-800 underline underline-offset-2"
+          className="inline-block py-3 font-semibold text-emerald-800 underline underline-offset-4"
         >
           {text.switchLink}
         </Link>

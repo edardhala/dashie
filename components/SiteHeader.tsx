@@ -6,15 +6,15 @@ export default async function SiteHeader() {
   const isLoggedIn = Boolean(await getUserId());
 
   return (
-    <header className="border-b border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-4 py-2">
+    <header className="sticky top-0 z-20 border-b border-stone-200 bg-white/90 backdrop-blur">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-2">
         <Link
           href="/"
-          className="flex min-h-11 items-center gap-2 text-lg font-bold text-slate-900"
+          className="flex min-h-11 items-center gap-2 rounded-lg text-lg font-bold tracking-tight text-stone-900"
         >
           <span
             aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-700 text-white"
+            className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-700 text-sm font-bold text-white"
           >
             D
           </span>

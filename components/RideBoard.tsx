@@ -15,15 +15,32 @@ import {
   type SeatRequest,
 } from "@/lib/rides";
 import RideCard from "./RideCard";
+import { MinusIcon, PlusIcon } from "./Icons";
 
 type Tab = "all" | "mine";
 type Filter = "all" | Direction;
 
-const fieldClass =
-  "mt-1 block min-h-12 w-full rounded-lg border border-slate-400 bg-white px-3 text-base text-slate-900";
-const labelClass = "block text-sm font-medium text-slate-900";
+const FILTERS: { value: Filter; label: string }[] = [
+  { value: "all", label: "All" },
+  { value: "Madrid → Segovia", label: "To Segovia" },
+  { value: "Segovia → Madrid", label: "To Madrid" },
+];
 
-export default function RideBoard({ userId }: { userId: string }) {
+const fieldClass =
+  "block min-h-12 w-full rounded-xl border border-stone-300 bg-white px-3.5 text-base text-stone-900 placeholder:text-stone-500";
+const labelClass = "block text-sm font-semibold text-stone-900";
+const errorBox =
+  "rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-800";
+const emptyBox =
+  "rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-700";
+
+export default function RideBoard({
+  userId,
+  initialTab = "all",
+}: {
+  userId: string;
+  initialTab?: Tab;
+}) {
   const supabase = useMemo(() => createClient(), []);
 
   const [rides, setRides] = useState<Ride[]>([]);
@@ -39,7 +56,7 @@ export default function RideBoard({ userId }: { userId: string }) {
   const [formError, setFormError] = useState<string | null>(null);
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
 
-  const [tab, setTab] = useState<Tab>("all");
+  const [tab, setTab] = useState<Tab>(initialTab);
   const [filter, setFilter] = useState<Filter>("all");
   const [busyRideId, setBusyRideId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -85,6 +102,11 @@ export default function RideBoard({ userId }: { userId: string }) {
     () => (filter === "all" ? rides : rides.filter((r) => r.direction === filter)),
     [rides, filter],
   );
+
+  function changeSeats(delta: number) {
+    const current = Number(seats) || MIN_SEATS;
+    setSeats(String(Math.min(MAX_SEATS, Math.max(MIN_SEATS, current + delta))));
+  }
 
   async function handlePost(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -148,7 +170,7 @@ export default function RideBoard({ userId }: { userId: string }) {
     setBusyRideId(rideId);
     setActionError(null);
     const { error } = await supabase.from("seat_requests").insert({ ride_id: rideId });
-    // 23505 = already requested; the button just shows "Requested ✓".
+    // 23505 = already requested; the card just shows the current status.
     if (error && error.code !== "23505") {
       setActionError(`Couldn't request a seat: ${error.message}`);
     }
@@ -208,20 +230,31 @@ export default function RideBoard({ userId }: { userId: string }) {
   }
 
   const tabClass = (active: boolean) =>
-    `min-h-11 flex-1 rounded-lg px-3 text-sm font-semibold ${
-      active ? "bg-white text-slate-900 shadow-sm" : "text-slate-700 hover:bg-slate-200"
+    `min-h-11 flex-1 rounded-lg px-3 text-sm font-semibold transition-colors ${
+      active ? "bg-white text-stone-900 shadow-sm" : "text-stone-700 hover:text-stone-900"
+    }`;
+  const chipClass = (active: boolean) =>
+    `min-h-11 rounded-full px-4 text-sm font-semibold transition-colors ${
+      active
+        ? "bg-stone-900 text-white"
+        : "bg-white text-stone-800 ring-1 ring-stone-300 hover:bg-stone-100"
     }`;
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-2xl space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-stone-900">Ride board</h1>
+        <p className="mt-1 text-stone-700">Every ride between Madrid and Segovia, newest first.</p>
+      </div>
+
       <section
         aria-labelledby="post-heading"
-        className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+        className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-6"
       >
-        <h1 id="post-heading" className="text-xl font-bold text-slate-900">
+        <h2 id="post-heading" className="text-lg font-bold text-stone-900">
           Post a ride
-        </h1>
-        <form onSubmit={handlePost} className="mt-4 space-y-4">
+        </h2>
+        <form onSubmit={handlePost} className="mt-4 space-y-5">
           <div>
             <label htmlFor="ride-description" className={labelClass}>
               Ride description
@@ -235,73 +268,94 @@ export default function RideBoard({ userId }: { userId: string }) {
               placeholder="e.g. Leaving Moncloa Fri 18:00, 2 seats"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={fieldClass}
+              className={`mt-1.5 ${fieldClass}`}
               aria-describedby="ride-description-hint"
             />
-            <p id="ride-description-hint" className="mt-1 text-sm text-slate-600">
-              Where from, when, and anything useful. No phone numbers.
+            <p id="ride-description-hint" className="mt-1.5 text-sm text-stone-600">
+              No phone numbers: riders reach you through seat requests.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label htmlFor="ride-direction" className={labelClass}>
-                Direction
-              </label>
-              <select
-                id="ride-direction"
-                value={direction}
-                onChange={(e) => setDirection(e.target.value as Direction)}
-                className={fieldClass}
-              >
-                {DIRECTIONS.map((d) => (
-                  <option key={d} value={d}>
+          <fieldset>
+            <legend className={labelClass}>Direction</legend>
+            <div className="mt-1.5 grid grid-cols-2 gap-1 rounded-xl bg-stone-100 p-1">
+              {DIRECTIONS.map((d) => (
+                <label key={d} className="relative">
+                  <input
+                    type="radio"
+                    name="direction"
+                    value={d}
+                    checked={direction === d}
+                    onChange={() => setDirection(d)}
+                    className="peer sr-only"
+                  />
+                  <span className="flex min-h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg px-1 text-[13px] font-semibold sm:text-sm text-stone-700 peer-checked:bg-emerald-700 peer-checked:text-white peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-emerald-700">
                     {d}
-                  </option>
-                ))}
-              </select>
+                  </span>
+                </label>
+              ))}
             </div>
+          </fieldset>
+
+          <div className="grid gap-5 sm:grid-cols-[auto_1fr]">
             <div>
               <label htmlFor="ride-seats" className={labelClass}>
                 Seats
               </label>
-              <input
-                id="ride-seats"
-                type="number"
-                inputMode="numeric"
-                min={MIN_SEATS}
-                max={MAX_SEATS}
-                step={1}
-                value={seats}
-                onChange={(e) => setSeats(e.target.value)}
-                className={fieldClass}
-              />
+              <div className="mt-1.5 flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => changeSeats(-1)}
+                  disabled={Number(seats) <= MIN_SEATS}
+                  aria-label="Fewer seats"
+                  className="grid h-12 w-12 place-items-center rounded-xl border border-stone-300 bg-white text-stone-900 hover:bg-stone-100 disabled:opacity-40"
+                >
+                  <MinusIcon className="h-5 w-5" />
+                </button>
+                <input
+                  id="ride-seats"
+                  type="number"
+                  inputMode="numeric"
+                  min={MIN_SEATS}
+                  max={MAX_SEATS}
+                  step={1}
+                  value={seats}
+                  onChange={(e) => setSeats(e.target.value)}
+                  className="block h-12 w-16 rounded-xl border border-stone-300 bg-white text-center text-base tabular-nums text-stone-900"
+                />
+                <button
+                  type="button"
+                  onClick={() => changeSeats(1)}
+                  disabled={Number(seats) >= MAX_SEATS}
+                  aria-label="More seats"
+                  className="grid h-12 w-12 place-items-center rounded-xl border border-stone-300 bg-white text-stone-900 hover:bg-stone-100 disabled:opacity-40"
+                >
+                  <PlusIcon className="h-5 w-5" />
+                </button>
+              </div>
             </div>
             <div>
               <label htmlFor="ride-departure" className={labelClass}>
-                Departure <span className="font-normal text-slate-600">(optional)</span>
+                Departure <span className="font-normal text-stone-600">(optional)</span>
               </label>
               <input
                 id="ride-departure"
                 type="datetime-local"
                 value={departure}
                 onChange={(e) => setDeparture(e.target.value)}
-                className={fieldClass}
+                className={`mt-1.5 ${fieldClass}`}
               />
             </div>
           </div>
 
           <div aria-live="polite">
             {formError && (
-              <p
-                role="alert"
-                className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-800"
-              >
+              <p role="alert" className={errorBox}>
                 {formError}
               </p>
             )}
             {formSuccess && (
-              <p className="rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-900">
+              <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-medium text-emerald-900">
                 {formSuccess}
               </p>
             )}
@@ -311,7 +365,7 @@ export default function RideBoard({ userId }: { userId: string }) {
             type="submit"
             data-testid="core-submit"
             disabled={posting}
-            className="min-h-12 w-full rounded-xl bg-emerald-700 px-4 text-base font-semibold text-white hover:bg-emerald-800 disabled:opacity-60 sm:w-auto"
+            className="min-h-12 w-full rounded-xl bg-emerald-700 px-6 text-base font-semibold text-white shadow-sm hover:bg-emerald-800 disabled:opacity-60 sm:w-auto"
           >
             {posting ? "Posting…" : "Post ride"}
           </button>
@@ -322,14 +376,14 @@ export default function RideBoard({ userId }: { userId: string }) {
         <h2 id="rides-heading" className="sr-only">
           Rides
         </h2>
-        <div className="flex gap-1 rounded-xl bg-slate-100 p-1">
+        <div className="flex gap-1 rounded-xl bg-stone-200/70 p-1">
           <button
             type="button"
             aria-pressed={tab === "all"}
             onClick={() => setTab("all")}
             className={tabClass(tab === "all")}
           >
-            All rides
+            All rides{loading ? "" : ` (${rides.length})`}
           </button>
           <button
             type="button"
@@ -343,62 +397,50 @@ export default function RideBoard({ userId }: { userId: string }) {
 
         <div aria-live="polite">
           {actionError && (
-            <p
-              role="alert"
-              className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-800"
-            >
+            <p role="alert" className={errorBox}>
               {actionError}
             </p>
           )}
         </div>
 
         {loading ? (
-          <p role="status" className="py-8 text-center text-slate-700">
-            Loading rides…
-          </p>
+          <ul aria-label="Loading rides" className="space-y-3">
+            <li role="status" className="sr-only">
+              Loading rides…
+            </li>
+            {[0, 1, 2].map((i) => (
+              <li key={i} aria-hidden="true" className="h-36 animate-pulse rounded-2xl bg-stone-200/70" />
+            ))}
+          </ul>
         ) : loadError ? (
-          <p
-            role="alert"
-            className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-800"
-          >
+          <p role="alert" className={errorBox}>
             {loadError}
           </p>
         ) : tab === "all" ? (
           <>
-            <div className="max-w-xs">
-              <label htmlFor="direction-filter" className={labelClass}>
-                Show
-              </label>
-              <select
-                id="direction-filter"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value as Filter)}
-                className={fieldClass}
-              >
-                <option value="all">All directions</option>
-                {DIRECTIONS.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
+            <div role="group" aria-label="Filter by direction" className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.value}
+                  type="button"
+                  aria-pressed={filter === f.value}
+                  onClick={() => setFilter(f.value)}
+                  className={chipClass(filter === f.value)}
+                >
+                  {f.label}
+                </button>
+              ))}
             </div>
             {rides.length === 0 ? (
-              <p className="rounded-xl border border-dashed border-slate-300 bg-white p-6 text-center text-slate-700">
-                No rides yet. Be the first to post one!
-              </p>
+              <p className={emptyBox}>No rides yet. Be the first to post one!</p>
             ) : visibleRides.length === 0 ? (
-              <p className="rounded-xl border border-dashed border-slate-300 bg-white p-6 text-center text-slate-700">
-                No rides in this direction yet.
-              </p>
+              <p className={emptyBox}>No rides in this direction yet.</p>
             ) : (
               <ul className="space-y-3">{visibleRides.map((ride) => renderCard(ride, false))}</ul>
             )}
           </>
         ) : myRides.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-slate-300 bg-white p-6 text-center text-slate-700">
-            You haven&apos;t posted any rides yet. Use the form above to post one.
-          </p>
+          <p className={emptyBox}>You haven&apos;t posted a ride yet. Use the form above.</p>
         ) : (
           <ul className="space-y-3">{myRides.map((ride) => renderCard(ride, true))}</ul>
         )}

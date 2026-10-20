@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* One accent colour (emerald 700/800) on a light, high-contrast base. */
+/* One accent colour (emerald 700/800) on a warm, high-contrast neutral base. */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -11,8 +11,8 @@
 }
 
 body {
-  background: #f8fafc;
-  color: #0f172a;
+  background: #fafaf9;
+  color: #1c1917;
 }
 
 /* Visible keyboard focus on every interactive element. */

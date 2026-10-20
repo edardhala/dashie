@@ -8,6 +8,7 @@ Student project, not affiliated with IE University.
 
 - **Public landing page** (`/`) explaining what Dashie is, with a single "Sign up" button and example rides.
 - **Email + password accounts** (`/signup`, `/login`) with Supabase Auth. No email confirmation, no extra fields.
+- **Dashboard** (`/` when logged in): rides you posted, requests waiting for your answer, the status of your own seat requests and the latest rides.
 - **Ride board** (`/app`, logged-in users only):
   - Post a ride with a one-line description, a direction (Madrid → Segovia / Segovia → Madrid), seats (1–8) and an optional departure time.
   - See every student's rides, newest first, with an optional direction filter.
