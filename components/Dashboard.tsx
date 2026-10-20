@@ -16,7 +16,6 @@ const textLink =
 
 export default async function Dashboard({ userId }: { userId: string }) {
   const supabase = await createClient();
-  // RLS returns every ride, and only the seat requests I made or received.
   const [ridesResult, requestsResult] = await Promise.all([
     supabase
       .from("rides")

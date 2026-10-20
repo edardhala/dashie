@@ -9,8 +9,6 @@ export default function LogoutButton() {
   async function handleLogout() {
     setBusy(true);
     await createClient().auth.signOut();
-    // Full page load so the shared header and server pages drop the old session.
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
     window.location.assign("/");
   }
 

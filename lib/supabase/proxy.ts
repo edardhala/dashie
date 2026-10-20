@@ -7,7 +7,6 @@ function isProtected(pathname: string) {
   return pathname === "/app" || pathname.startsWith("/app/");
 }
 
-// Refreshes the Supabase session cookie on every request and guards routes.
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
@@ -35,7 +34,6 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Don't run code between createServerClient and getClaims().
   const { data } = await supabase.auth.getClaims();
   const isLoggedIn = Boolean(data?.claims?.sub);
   const { pathname } = request.nextUrl;
@@ -59,7 +57,6 @@ function redirectWithCookies(
   url.pathname = pathname;
   url.search = "";
   const redirect = NextResponse.redirect(url);
-  // Keep any refreshed session cookies on the redirect.
   response.cookies.getAll().forEach((cookie) => redirect.cookies.set(cookie));
   return redirect;
 }

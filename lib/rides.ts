@@ -29,8 +29,6 @@ export type SeatRequest = {
 export const PHONE_MESSAGE =
   "Please don't post phone numbers. Riders will contact you through a seat request.";
 
-// 9+ digits in a row, ignoring spaces, dots, dashes and a leading "+".
-// "612 345 678" and "+34 612-345-678" match; "QA-7F3K2A grading bot test" doesn't.
 export function looksLikePhoneNumber(text: string) {
   return /\+?\d(?:[\s.-]*\d){8,}/.test(text);
 }

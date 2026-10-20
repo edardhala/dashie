@@ -9,7 +9,6 @@ const steps = [
   { title: "You get their email", text: "Accept who you want and sort out the details." },
 ];
 
-// Hard-coded examples for the landing page. Not from the database.
 const examples: { direction: Direction; description: string; seats: string; when: string }[] = [
   {
     direction: "Madrid → Segovia",

@@ -1,4 +1,3 @@
-// Small stroke icons (decorative: always aria-hidden).
 type IconProps = { className?: string };
 
 function Svg({ className = "h-4 w-4", children }: IconProps & { children: React.ReactNode }) {

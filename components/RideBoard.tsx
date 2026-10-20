@@ -34,6 +34,24 @@ const errorBox =
 const emptyBox =
   "rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-700";
 
+async function fetchBoard(supabase: ReturnType<typeof createClient>) {
+  const [ridesResult, requestsResult] = await Promise.all([
+    supabase
+      .from("rides")
+      .select("id, user_id, description, direction, seats, departure_at, created_at")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("seat_requests")
+      .select("id, ride_id, requester_id, requester_email, status, created_at")
+      .order("created_at", { ascending: true }),
+  ]);
+  return {
+    error: Boolean(ridesResult.error || requestsResult.error),
+    rides: (ridesResult.data ?? []) as Ride[],
+    requests: (requestsResult.data ?? []) as SeatRequest[],
+  };
+}
+
 export default function RideBoard({
   userId,
   initialTab = "all",
@@ -61,35 +79,32 @@ export default function RideBoard({
   const [busyRideId, setBusyRideId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
 
-  const loadRides = useCallback(async () => {
-    const [ridesResult, requestsResult] = await Promise.all([
-      supabase
-        .from("rides")
-        .select("id, user_id, description, direction, seats, departure_at, created_at")
-        .order("created_at", { ascending: false }),
-      // RLS only returns my own requests and requests on my rides.
-      supabase
-        .from("seat_requests")
-        .select("id, ride_id, requester_id, requester_email, status, created_at")
-        .order("created_at", { ascending: true }),
-    ]);
-
-    if (ridesResult.error || requestsResult.error) {
+  const applyBoard = useCallback((board: Awaited<ReturnType<typeof fetchBoard>>) => {
+    if (board.error) {
       setLoadError("Couldn't load rides. Check your connection and refresh the page.");
     } else {
       setLoadError(null);
-      setRides(ridesResult.data as Ride[]);
-      setRequests(requestsResult.data as SeatRequest[]);
+      setRides(board.rides);
+      setRequests(board.requests);
     }
     setLoading(false);
-  }, [supabase]);
+  }, []);
+
+  const loadRides = useCallback(
+    async () => applyBoard(await fetchBoard(supabase)),
+    [supabase, applyBoard],
+  );
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- initial fetch from Supabase
-    loadRides();
-  }, [loadRides]);
+    let active = true;
+    fetchBoard(supabase).then((board) => {
+      if (active) applyBoard(board);
+    });
+    return () => {
+      active = false;
+    };
+  }, [supabase, applyBoard]);
 
-  // My own request status per ride (rides I asked to join).
   const myRequestStatus = useMemo(
     () =>
       new Map(
@@ -170,7 +185,6 @@ export default function RideBoard({
     setBusyRideId(rideId);
     setActionError(null);
     const { error } = await supabase.from("seat_requests").insert({ ride_id: rideId });
-    // 23505 = already requested; the card just shows the current status.
     if (error && error.code !== "23505") {
       setActionError(`Couldn't request a seat: ${error.message}`);
     }

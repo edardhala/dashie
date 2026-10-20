@@ -67,7 +67,6 @@ export default function AuthForm({ mode }: { mode: Mode }) {
         return;
       }
       if (!data.session) {
-        // Only happens if "Confirm email" gets turned back on in Supabase.
         setError("Account created. Check your inbox to confirm your email, then log in.");
         setBusy(false);
         return;
@@ -87,9 +86,6 @@ export default function AuthForm({ mode }: { mode: Mode }) {
       }
     }
 
-    // Full page load (not router.push) so the server sees the new session cookie
-    // and the shared header re-renders with the logout button.
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
     window.location.assign("/app");
   }
 

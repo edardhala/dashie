@@ -1,21 +1,16 @@
 @import "tailwindcss";
 
-/*
- * Palette: charcoal + one indigo accent, violet highlights, on a soft lavender-white.
- * Contrast (WCAG 2.1 AA): white on brand 6.3:1, brand-ink on white 7.9:1,
- * ink on page 16:1, brand-bright on ink 7:1.
- */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-ink: #18181b; /* charcoal: header, footer, headings, selected states */
-  --color-brand: #4f46e5; /* indigo: buttons (white text) */
+  --color-ink: #18181b;
+  --color-brand: #4f46e5;
   --color-brand-hover: #4338ca;
-  --color-brand-bright: #a78bfa; /* violet on charcoal/indigo and decorative lines */
-  --color-brand-ink: #4338ca; /* indigo links and text on light backgrounds */
-  --color-brand-soft: #ede9fe; /* violet tint for highlights */
-  --color-cream: #f7f6ff; /* page background */
+  --color-brand-bright: #a78bfa;
+  --color-brand-ink: #4338ca;
+  --color-brand-soft: #ede9fe;
+  --color-cream: #f7f6ff;
 }
 
 :root {
@@ -27,7 +22,6 @@ body {
   color: var(--color-ink);
 }
 
-/* Visible keyboard focus on any background: white gap + indigo ring. */
 :focus-visible {
   outline: 3px solid var(--color-brand);
   outline-offset: 2px;

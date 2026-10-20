@@ -12,7 +12,6 @@ import { CalendarIcon, CheckIcon, ClockIcon, MailIcon, SeatIcon, TrashIcon } fro
 type Props = {
   ride: Ride;
   isMine: boolean;
-  // My own request on someone else's ride, if I made one.
   myRequestStatus?: RequestStatus;
   busy: boolean;
   onRequest: () => void;
@@ -20,7 +19,6 @@ type Props = {
   onRespond: (requestId: string, status: RequestStatus) => void;
   onViewRequests: () => void;
   requestCount: number;
-  // Only passed in "My rides": the people who requested a seat.
   requests?: SeatRequest[];
 };
 

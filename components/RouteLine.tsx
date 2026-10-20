@@ -1,6 +1,5 @@
 import type { Direction } from "@/lib/rides";
 
-// "Madrid ●┄┄● Segovia". Screen readers hear "Madrid to Segovia".
 export default function RouteLine({ direction }: { direction: Direction }) {
   const [from, to] = direction.split(" → ");
   return (
