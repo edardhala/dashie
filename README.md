@@ -1,6 +1,6 @@
 # Dashie
 
-**Dashie helps IE students commuting between Madrid and Segovia find or offer a car seat so they stop hunting through WhatsApp groups.**
+**Dashie gives IE students commuting between Madrid and Segovia one place to offer an empty car seat or find a ride in minutes.**
 
 Student project, not affiliated with IE University.
 

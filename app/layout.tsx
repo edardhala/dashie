@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dashie: Madrid–Segovia ride board for IE students",
   description:
-    "Dashie helps IE students commuting between Madrid and Segovia find or offer a car seat so they stop hunting through WhatsApp groups.",
+    "Dashie gives IE students commuting between Madrid and Segovia one place to offer an empty car seat or find a ride in minutes.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

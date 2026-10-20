@@ -12,7 +12,7 @@ const steps = [
 const pitch = [
   {
     label: "The problem",
-    text: "Rides between Madrid and Segovia are arranged in busy WhatsApp groups. Offers get buried in minutes, so drivers leave with empty seats and riders miss them.",
+    text: "Getting between Madrid and the Segovia campus is a weekly hassle. Ride offers are scattered across group chats and get lost fast, so cars leave half empty while other students search for a way there.",
   },
   {
     label: "Who it's for",
@@ -58,8 +58,7 @@ export default function Landing() {
             Find or offer a seat between Madrid and Segovia
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-pretty text-white/80">
-            A ride board for IE students. Post your trip in 10 seconds, no more scrolling
-            WhatsApp groups.
+            A ride board for IE students. Post your trip in 10 seconds or request a seat in one tap.
           </p>
           <div className="mt-8 flex flex-col items-center gap-2">
             <Link
@@ -102,8 +101,8 @@ export default function Landing() {
           id="pitch-heading"
           className="mx-auto max-w-3xl text-center text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl"
         >
-          Dashie helps IE students commuting between Madrid and Segovia find or offer a car
-          seat so they stop hunting through WhatsApp groups.
+          Dashie gives IE students commuting between Madrid and Segovia one place to offer an
+          empty car seat or find a ride in minutes.
         </h2>
         <dl className="mt-8 grid gap-4 sm:grid-cols-3">
           {pitch.map((item) => (
